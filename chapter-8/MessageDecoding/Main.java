@@ -12,21 +12,21 @@ import java.util.Scanner;
 public class Main {
 	public static void main(String[] args) {
 		// Holds the possible encoders as MessageEncoders
-		Coder[] encoders = {new SubstitutionCipher()};
+		Coder[] encoders = {new SubstitutionCipher(), new ShuffleCipher()};
 		
 		Scanner input = new Scanner(System.in);
 		System.out.println("Choose encoder: ");
-		System.out.println("0: Caesar (Subsitution)");
+		System.out.println("1: Caesar (Subsitution)");
+		System.out.println("2: Shuffle");
 		
 		int choice = input.nextInt();
-		while(choice < 0 || choice + 1 > encoders.length) {
+		while(choice < 1 || choice > encoders.length) {
 			System.out.println("Invalid choice!");
 			choice = input.nextInt();
 		}
 		
-		Coder coder = encoders[choice];
+		Coder coder = encoders[choice - 1];
 		coder.init(); // All encoders are required to have this method
-		
 		
 		System.out.println("Enter lines: \n'encode: blah blah blah'");
 		String plainText = input.nextLine();
@@ -39,13 +39,14 @@ public class Main {
 				line = parts[1];
 			}
 			
-			if(parts[0].equalsIgnoreCase("decode")) {
-				System.out.println(coder.decode(line));
-			} else {
-				System.out.println(coder.encode(line));
+			// Make sure the String isn't empty
+			if(line.length() != 0) {			
+				if(parts[0].equalsIgnoreCase("decode")) {
+					System.out.println(coder.decode(line));
+				} else {
+					System.out.println(coder.encode(line));
+				}
 			}
-			
-			System.out.print("");
 			plainText = input.nextLine();
 		}
 	}
