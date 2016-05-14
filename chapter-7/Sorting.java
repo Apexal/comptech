@@ -1,5 +1,12 @@
+/**
+ * This class uses two sorting methods, Bubble Sort and Selection Sort
+ * to order arrays.
+ * 
+ * @author Frank Matranga
+ * @version 2016-05-13
+ */
+
 public class Sorting {
-	
 	/**
 	 * This method is used to find the index of the smallest value in an array for selection sorting. 
 	 *  
@@ -89,7 +96,7 @@ public class Sorting {
 		for(int item : ordered) {
 			System.out.println(item);
 		}
-		
+        
 		int[] ordered2 = bubbleSort(nums);
 		for(int item : ordered2) {
 			System.out.println(item);
