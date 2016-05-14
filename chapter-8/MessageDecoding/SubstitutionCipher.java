@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class SubstitutionCipher implements MessageEncoder {
+public class SubstitutionCipher implements Coder {
 	public static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 	
 	private int shift;
@@ -28,13 +28,19 @@ public class SubstitutionCipher implements MessageEncoder {
 	 * spaces and punctuation.
 	 * 
 	 * @param c Character to shift.
+	 * @param encoding Boolean saying direction.
 	 * @return char The new character that has been shifted.
 	 */
-	private char shiftChar(char c) {
+	private char shiftChar(char c, boolean encoding) {
 		int charPos = ALPHABET.indexOf(c);
 		if(charPos == -1) { return c; } // If punctuation/space/etc
 		
-		return ALPHABET.charAt((charPos + shift) % 26);
+		int newPos = (charPos + (encoding ? shift : -shift)) % 26;
+		if(newPos < 0) {
+			newPos += 26;
+		}
+		
+		return ALPHABET.charAt(newPos);
 	}
 	
 	/**
@@ -53,7 +59,24 @@ public class SubstitutionCipher implements MessageEncoder {
 			char shifted = ' ';
 			
 			if(plainText.charAt(i) != ' ') {
-				shifted = shiftChar(plainText.charAt(i));
+				shifted = shiftChar(plainText.charAt(i), true);
+			}
+			
+			chars[i] = shifted;
+		}
+		return new String(chars);
+	}
+	
+	public String decode(String cipherText) {
+		cipherText = cipherText.toLowerCase(); // makes it easier
+		
+		char[] chars = new char[cipherText.length()];
+		
+		for(int i = 0; i < cipherText.length(); i++) {
+			char shifted = ' ';
+			
+			if(cipherText.charAt(i) != ' ') {
+				shifted = shiftChar(cipherText.charAt(i), false);
 			}
 			
 			chars[i] = shifted;

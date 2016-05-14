@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class Main {
 	public static void main(String[] args) {
 		// Holds the possible encoders as MessageEncoders
-		MessageEncoder[] encoders = {new SubstitutionCipher()};
+		Coder[] encoders = {new SubstitutionCipher()};
 		
 		Scanner input = new Scanner(System.in);
 		System.out.println("Choose encoder: ");
@@ -24,12 +24,28 @@ public class Main {
 			choice = input.nextInt();
 		}
 		
-		MessageEncoder encoder = encoders[choice];
-		encoder.init(); // All encoders are required to have this method
+		Coder coder = encoders[choice];
+		coder.init(); // All encoders are required to have this method
 		
+		
+		System.out.println("Enter lines: \n'encode: blah blah blah'");
 		String plainText = input.nextLine();
-		while(!plainText.equalsIgnoreCase("stop")) { 
-			System.out.print(encoder.encode(plainText) + "\n>");
+		while(!plainText.equalsIgnoreCase("stop")) {
+			String[] parts = plainText.split(": ");
+			String line = parts[0];
+			
+			// If they don't specify encode/decode assume encode
+			if(parts.length == 2) {
+				line = parts[1];
+			}
+			
+			if(parts[0].equalsIgnoreCase("decode")) {
+				System.out.println(coder.decode(line));
+			} else {
+				System.out.println(coder.encode(line));
+			}
+			
+			System.out.print("");
 			plainText = input.nextLine();
 		}
 	}
