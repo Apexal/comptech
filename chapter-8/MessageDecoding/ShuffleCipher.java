@@ -3,6 +3,14 @@ import java.util.Scanner;
 public class ShuffleCipher implements Coder {
 	private int shuffleAmount;
 	
+	public ShuffleCipher() {
+		shuffleAmount = 1; // Default value
+	}
+	
+	public ShuffleCipher(int shiftAmount) {
+		this.shuffleAmount = shiftAmount;
+	}
+	
 	public void init() {
 		Scanner input = new Scanner(System.in);
 		System.out.print("Enter shuffle amount: ");
@@ -10,7 +18,7 @@ public class ShuffleCipher implements Coder {
 	}
 	
 	/**
-	 * This method encodes a String by splitting it in half and swapping
+	 * Encodes a String by splitting it in half and swapping
 	 * characters from each half alternately (shuffling it).
 	 * 
 	 * @param plainText The String to be shuffled.
@@ -38,7 +46,7 @@ public class ShuffleCipher implements Coder {
 	}
 	
 	/**
-	 * This method takes the passed String and shuffles it based on the
+	 * Takes the passed String and shuffles it based on the
 	 * previously set shuffleAmount.
 	 * 
 	 * @return String The encoded String.
