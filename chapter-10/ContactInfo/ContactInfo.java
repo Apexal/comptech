@@ -11,8 +11,8 @@ public class ContactInfo {
 	private String homeAddress;
 	
 	// When you want to read a text file of contacts
-	public ContactInfo(String csv) {
-		String[] info = csv.split(",");
+	public ContactInfo(String csv) throws ArrayIndexOutOfBoundsException{
+		String[] info = csv.split(";");
 		
 		this.firstName = info[0];
 		this.lastName = info[1];
@@ -20,7 +20,7 @@ public class ContactInfo {
 		this.homeNumber = info[3];
 		this.mobileNumber = info[4];
 		this.email = info[5];
-		this.homeAddress = info[6];
+		this.homeAddress = (info.length == 7 ? info[6] : "");
 	}
 	
 	// In case you want to manually create a contact
@@ -57,5 +57,10 @@ public class ContactInfo {
 	}
 	public String getHomeAddress() {
 		return homeAddress;
+	}
+	
+	public String toString() {
+		return firstName + ";" + lastName + ";" + businessNumber + ";" + 
+			homeNumber + ";" + mobileNumber + ";" + email + ";" + homeAddress;
 	}
 }
