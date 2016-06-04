@@ -58,7 +58,11 @@ public class ContactInfo {
 	public String getHomeAddress() {
 		return homeAddress;
 	}
-	
+
+    public String[] valuesToArray() {
+        return new String[]{getFirstName(), getLastName(), getBusinessNumber(), getHomeNumber(), getMobileNumber(), getEmail(), getHomeAddress()};
+    }
+
 	public String toString() {
 		return firstName + ";" + lastName + ";" + businessNumber + ";" + 
 			homeNumber + ";" + mobileNumber + ";" + email + ";" + homeAddress;

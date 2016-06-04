@@ -1,10 +1,4 @@
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -23,27 +17,40 @@ public class ContactManager {
 	public ContactInfo[] getContacts() {
 		return contacts.toArray(new ContactInfo[contacts.size()]);
 	}
-	
+
+    public void addContact() {
+        input.nextLine();
+
+        String[] values = new String[HEADERS.length];
+        for (int i = 0; i < HEADERS.length; i++) {
+            String header = HEADERS[i];
+            System.out.print(header + ": ");
+            values[i] = input.nextLine();
+        }
+
+        contacts.add(new ContactInfo(String.join(";", values)));
+    }
+
 	/**
 	 * Print out a formatted list of contacts
 	 * 
 	 * @return Nothing.
 	 */
 	public void listContacts() {
-		for(String s : HEADERS) {
-			System.out.print(s + "\t");
-		}
-		
 		for (ContactInfo c : contacts) {
-			String[] row = {c.getFirstName(), c.getLastName()};
-			for(String s : row) {
-				System.out.print(s + "\t");
-			}
-			System.out.println();
-		}
-	}
-	
-	/**
+            System.out.println("[CONTACT #" + (contacts.indexOf(c) + 1) + "]");
+
+            String[] values = c.valuesToArray();
+            for (int i = 0; i < HEADERS.length; i++) {
+                System.out.println(HEADERS[i].toUpperCase() + ": " + values[i]);
+            }
+            System.out.println("---");
+        }
+
+        System.out.println("\n---\n" + contacts.size() + " found");
+    }
+
+    /**
 	 * Prints the possible operations and runs the correct one based on user
 	 * input.
 	 * 
@@ -57,9 +64,9 @@ public class ContactManager {
 				listContacts();
 				break;
 			case "2":
-				
-				break;
-			case "3":
+                addContact();
+                break;
+            case "3":
 				
 				break;
 			case "4":
@@ -74,18 +81,20 @@ public class ContactManager {
 	 * 
 	 * @return Nothing.
 	 */
-	public void loadContacts() throws FileNotFoundException, UnsupportedEncodingException, IOException{
-		FileInputStream in = new FileInputStream(PATH);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
-		reader.readLine(); // Skip header
+    public void loadContacts() throws IOException {
+        FileInputStream in = new FileInputStream(PATH);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
 		
 		String csv;
 		while((csv = reader.readLine()) != null) {
 			try {
-				contacts.add(new ContactInfo(csv));
-			} catch(ArrayIndexOutOfBoundsException e) {
-				System.out.println("Invalid line!");
-			}
+                // Allow comments in csv file starting with #
+                if (!csv.startsWith("#")) {
+                    contacts.add(new ContactInfo(csv));
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("Invalid line!");
+            }
 		}
 		in.close();
 	}
