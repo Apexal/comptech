@@ -18,7 +18,7 @@ public class ContactManager {
 		return contacts.toArray(new ContactInfo[contacts.size()]);
 	}
 
-    public void addContact() {
+    public void addContact() throws InvalidContactException {
         input.nextLine();
 
         String[] values = new String[HEADERS.length];
@@ -58,22 +58,26 @@ public class ContactManager {
 	 */
 	public void decideOperation() {
 		System.out.println("Choose an Operation:\n1: List contacts\n2: Add contact\n3: Remove contact\n4: Quit");
-		
-		switch(input.next()) {
-			case "1":
-				listContacts();
-				break;
-			case "2":
-                addContact();
-                break;
-            case "3":
-				
-				break;
-			case "4":
-				quit();
-				break;
-		}
-		System.out.println();
+
+        try {
+            switch (input.next()) {
+                case "1":
+                    listContacts();
+                    break;
+                case "2":
+                    addContact();
+                    break;
+                case "3":
+
+                    break;
+                case "4":
+                    quit();
+                    break;
+            }
+        } catch (Exception e) {
+            System.out.println("An error occured: " + e.getMessage());
+        }
+        System.out.println();
 	}
 	
 	/**
@@ -92,8 +96,8 @@ public class ContactManager {
                 if (!csv.startsWith("#")) {
                     contacts.add(new ContactInfo(csv));
                 }
-            } catch (ArrayIndexOutOfBoundsException e) {
-                System.out.println("Invalid line!");
+            } catch (InvalidContactException e) {
+                System.out.println(e.getMessage());
             }
 		}
 		in.close();

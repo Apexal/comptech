@@ -11,9 +11,13 @@ public class ContactInfo {
 	private String homeAddress;
 	
 	// When you want to read a text file of contacts
-	public ContactInfo(String csv) throws ArrayIndexOutOfBoundsException{
-		String[] info = csv.split(";");
-		
+    public ContactInfo(String csv) throws InvalidContactException {
+        String[] info = csv.split(";");
+
+        if (info.length != 7) {
+            throw new InvalidContactException();
+        }
+
 		this.firstName = info[0];
 		this.lastName = info[1];
 		this.businessNumber = info[2];
