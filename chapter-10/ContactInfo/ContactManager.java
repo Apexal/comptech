@@ -18,6 +18,12 @@ public class ContactManager {
 		return contacts.toArray(new ContactInfo[contacts.size()]);
 	}
 
+    /**
+     * Prompts the user with headers for values for a new contact
+     *
+     * @return Nothing
+     * @throws InvalidContactException
+     */
     public void addContact() throws InvalidContactException {
         input.nextLine();
 
@@ -29,6 +35,30 @@ public class ContactManager {
         }
 
         contacts.add(new ContactInfo(String.join(";", values)));
+    }
+
+    /**
+     * Prompts the user for the contact # to delete and after confirming it deletes it.
+     *
+     * @return Nothing
+     */
+    public void deleteContact() {
+        System.out.print("Which Contact #? ");
+        int indexToDelete = input.nextInt() - 1; // Minus once as the user chooses #1 for contact 0
+
+        if (indexToDelete >= 0 && indexToDelete < contacts.size()) {
+            System.out.print("\n Are you sure you want to delete info for '" + contacts.get(indexToDelete).getFirstName() +
+                    " " + contacts.get(indexToDelete).getLastName() + "'? (Y/N)");
+
+            if (input.next().equalsIgnoreCase("y")) {
+                contacts.remove(indexToDelete);
+                System.out.println("Removed contact.");
+            } else {
+                System.out.println("Cancelled.");
+            }
+        } else {
+            System.out.println("Invalid contact!");
+        }
     }
 
 	/**
@@ -68,7 +98,7 @@ public class ContactManager {
                     addContact();
                     break;
                 case "3":
-
+                    deleteContact();
                     break;
                 case "4":
                     quit();
@@ -110,8 +140,8 @@ public class ContactManager {
 	 */
 	public void writeContacts() throws FileNotFoundException, UnsupportedEncodingException {
 		PrintWriter writer = new PrintWriter(PATH, "UTF-8");
-		writer.println("First Name;Last Name;Business Number;Home Number;Mobile Number;Email;Home Address");
-		for(ContactInfo c : contacts) {
+        writer.println("# First Name;Last Name;Business Number;Home Number;Mobile Number;Email;Home Address");
+        for(ContactInfo c : contacts) {
 			writer.println(c);
 		}
 		writer.close();
