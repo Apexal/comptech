@@ -32,25 +32,23 @@ public class PetManager {
             System.out.print("Weight: ");
             weight = userInput.nextDouble();
 
-            if((age < 0) || (weight < 0)) {
-                System.out.println("Invalid age or weight. Skipped.");
-                userInput.nextLine();
-                continue;
-            }
-
             userInput.nextLine(); // For some weird bug that skips the next .nextLine()
 
-            pets.add(new Pet(name, age, weight));
-            System.out.println("Added pet!\n");
+            try {
+                pets.add(new Pet(name, age, weight));
+                System.out.println("Added pet!\n");
+            } catch(PetError e) {
+                System.out.println(e.getMessage() + " Skipped.\n");
+            }
         }
 
         sortPetList();
         printPetList();
     }
-    
+
     /**
      * Sorts the pet ArrayList by alphabetical order by pet name.
-     * 
+     *
      * @return Nothing.
      */
     public static void sortPetList() {
