@@ -47,7 +47,12 @@ public class PetManager {
         sortPetList();
         printPetList();
     }
-
+    
+    /**
+     * Sorts the pet ArrayList by alphabetical order by pet name.
+     * 
+     * @return Nothing.
+     */
     public static void sortPetList() {
         Collections.sort(pets, new Comparator<Pet>() {
             @Override
