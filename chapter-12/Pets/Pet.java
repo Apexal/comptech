@@ -22,7 +22,16 @@ public class Pet {
         this.age = age;
         this.weight = weight;
     }
-
+    
+    /**
+     * Sets all the traits of a pet at once. If the new age or new weight is negative
+     * the program displays and error and quits the program.
+     * 
+     * @param newName A String containing the new pet name.
+     * @param newAge A positive Integer for the new pet age.
+     * @param newWeight A positive Double for the new pet weight.
+     * @return Nothing.
+     */
     public void setPet(String newName, int newAge, double newWeight) {
         name = newName;
         if((newAge < 0) || (newWeight < 0)) {
@@ -34,6 +43,7 @@ public class Pet {
     
     /**
      * Change the name of a pet to the given new name.
+     * 
      * @param newName String containing the new name.
      * @return Nothing.
      */
@@ -42,7 +52,8 @@ public class Pet {
     }
     
     /**
-     * Changes the pet's age to the given new age. If it is negative, it print an error and quits the program.
+     * Changes the pet's age to the given new age. If it is negative,
+     * it print an error and quits the program.
      * 
      * @param newAge A positive Integer to set the age to.
      * @return Nothing.
@@ -57,7 +68,8 @@ public class Pet {
     }
     
     /**
-     * Changes the pet's age to the given new weight. If it is negative, it prints an error and quits the program.
+     * Changes the pet's age to the given new weight. If it is negative,
+     * it prints an error and quits the program.
      * 
      * @param newWeight A positive double to set the new weight to. 
      * @return Nothing.
